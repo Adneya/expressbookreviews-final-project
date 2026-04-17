@@ -88,6 +88,21 @@ public_users.get('/review/:isbn',function (req, res) {
   return res.status(200).json(book.reviews);
 });
 
+// Get all books using async callback function
+public_users.get('/async/books', async function (req, res) {
+  try {
+    const response = await axios.get(`${BASE_URL}/`);
+    return res.status(200).json(response.data);
+  } catch (error) {
+    const statusCode = error.response?.status || 500;
+
+    return res.status(statusCode).json({
+      message: 'Unable to fetch all books using async callback',
+      error: error.response?.data || error.message
+    });
+  }
+});
+
 // Axios implementation using promise callbacks
 public_users.get('/promise/books', function (req, res) {
   axios
