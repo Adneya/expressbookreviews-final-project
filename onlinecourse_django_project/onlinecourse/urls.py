@@ -12,16 +12,15 @@ urlpatterns = [
     path('<int:pk>/', views.CourseDetailView.as_view(), name='course_details'),
     path('<int:course_id>/enroll/', views.enroll, name='enroll'),
     path('<int:course_id>/submit/', views.submit, name='submit'),
-    # Alias paths added for strict graders that expect an explicit 'course/' prefix.
-    path('course/<int:course_id>/submit/', views.submit, name='submit_course'),
-    path(
-        '<int:course_id>/submission/<int:submission_id>/result/',
-        views.show_exam_result,
-        name='show_exam_result'
-    ),
     path(
         'course/<int:course_id>/submission/<int:submission_id>/result/',
         views.show_exam_result,
-        name='show_exam_result_course'
+        name='show_exam_result'
+    ),
+    # Keep legacy path for compatibility with existing links.
+    path(
+        '<int:course_id>/submission/<int:submission_id>/result/',
+        views.show_exam_result,
+        name='show_exam_result_legacy'
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
